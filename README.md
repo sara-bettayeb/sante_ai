@@ -79,3 +79,17 @@ This application is for educational purposes only. It does not provide medical d
 Author
 
 Thyroid Care Module — University Group Project
+# نظام الذكاء الاصطناعي للتنبؤ بأمراض القلب (sante_ai)
+
+تطبيق ويب طبي تفاعلي مبني باستخدام Streamlit ومغلف بالكامل داخل حاوية Docker.
+
+## الملفات الأساسية
+- app.py: كود الواجهة التفاعلية والمنطق الطبي.
+- Dockerfile: تعليمات بناء وتجهيز الحاوية.
+- requirements.txt: المكتبات اللازمة لتشغيل التطبيق.
+
+## طريقة التشغيل عبر Docker
+
+1. بناء الصورة (Build Image):
+`bash
+docker build -t sante-ai-image .
