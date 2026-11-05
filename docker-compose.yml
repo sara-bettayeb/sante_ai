@@ -1,0 +1,25 @@
+services:
+
+  thyroid-app:
+    build: .
+    container_name: thyroid-app
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - OLLAMA_URL=http://ollama:11434/api/generate
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  ollama_data:
+    external: true
+    name: ollama
