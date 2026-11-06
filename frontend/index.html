@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thyroid Care</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <span>✚</span> Thyroid Care
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#diseases">Diseases</a>
+            <a href="#tests">Tests</a>
+            <a href="#assistant">AI Assistant</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <p class="subtitle">YOUR HEALTH MATTERS</p>
+
+                <h1>
+                    Take Care of Your
+                    <span>Thyroid Health</span>
+                </h1>
+
+                <p class="description">
+                    Learn about your thyroid, understand its function,
+                    explore common disorders and get AI-powered
+                    health information.
+                </p>
+
+                <a href="#about" class="main-button">
+                    Explore More
+                </a>
+            </div>
+
+           <div class="hero-image">
+                 <img
+                    src="images/thyroid.png"
+                   alt="Thyroid gland medical illustration">
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <h2>What is the Thyroid?</h2>
+
+            <p>
+                The thyroid is a butterfly-shaped gland located
+                in the front of the neck. It produces hormones
+                that help regulate metabolism, energy and body
+                temperature.
+            </p>
+        </section>
+        <section class="functions">
+             <h2>What Does the Thyroid Do?</h2>
+
+                <div class="cards">
+
+                           <div class="card">
+                                <h3>Metabolism</h3>
+                                 <p>
+                                      Helps regulate how the body uses energy.
+                                </p>
+                          </div>
+
+                    <div class="card">
+                      <h3>Energy</h3>
+                                 <p>
+                                     Thyroid hormones influence energy levels.
+                                  </p>
+                    </div>
+
+                    <div class="card">
+                            <h3>Body Temperature</h3>
+                           <p>
+                                 Helps regulate body temperature.
+                           </p>
+                    </div>
+
+                </div>
+          </section>
+        
+          <section class="features" id="diseases">
+    <h2>Explore Thyroid Health</h2>
+
+    <div class="cards">
+
+        <div class="card disease-card">
+            <h3>Hypothyroidism</h3>
+            <p>
+                Learn about an underactive thyroid
+                and its effects on the body.
+            </p>
+            <button class="details-btn" data-disease="hypo">
+                Learn More
+            </button>
+        </div>
+
+        <div class="card disease-card">
+            <h3>Hyperthyroidism</h3>
+            <p>
+                Discover what happens when the thyroid
+                produces too many hormones.
+            </p>
+            <button class="details-btn" data-disease="hyper">
+                Learn More
+            </button>
+        </div>
+
+        <div class="card">
+    <h3>Thyroid Tests</h3>
+    <p>
+        Explore common blood tests used to evaluate
+        thyroid function.
+    </p>
+    <button class="details-btn" id="exploreTests">
+        Explore Tests
+    </button>
+</div>
+
+    </div>
+</section>
+
+<!-- Disease Information Modal -->
+
+<div class="modal" id="diseaseModal" hidden>
+    <div class="modal-content">
+
+        <button class="close-btn" id="closeModal">
+            &times;
+        </button>
+
+        <h2 id="diseaseTitle"></h2>
+
+        <div id="diseaseInfo"></div>
+
+        <p class="medical-note">
+            This information is for educational purposes only.
+            Consult a healthcare professional for diagnosis
+            and treatment.
+        </p>
+
+    </div>
+</div>
+<!-- Thyroid Tests Modal -->
+<div class="modal" id="testsModal" hidden>
+    <div class="modal-content">
+        <button class="close-btn" id="closeTestsModal">&times;</button>
+
+        <h2>Thyroid Tests</h2>
+
+        <div class="test-item">
+            <h3>TSH Test</h3>
+            <p>Measures thyroid-stimulating hormone levels.</p>
+        </div>
+
+        <div class="test-item">
+            <h3>Free T4 Test</h3>
+            <p>Measures the level of free thyroxine in the blood.</p>
+        </div>
+
+        <div class="test-item">
+            <h3>T3 Test</h3>
+            <p>Measures triiodothyronine hormone levels.</p>
+        </div>
+
+        <div class="test-item">
+            <h3>Thyroid Antibodies</h3>
+            <p>Helps identify autoimmune thyroid conditions.</p>
+        </div>
+
+        <p class="medical-note">
+            These tests are used by healthcare professionals
+            to evaluate thyroid function. Results should be
+            interpreted by a healthcare professional.
+        </p>
+    </div>
+</div>
+<!-- AI Assistant Section -->
+<section class="assistant" id="assistant">
+
+    <h2>AI Thyroid Assistant</h2>
+
+    <p>
+        Have questions about thyroid health?
+        Ask our AI Assistant to learn more.
+    </p>
+
+    <div class="chat-container">
+
+        <div class="chat-box" id="chatBox">
+            <div class="bot-message">
+                Hello! I'm your Thyroid Assistant.
+                Ask me anything about thyroid health!
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input
+                type="text"
+                id="userInput"
+                placeholder="Ask a question about thyroid health..."
+            >
+
+            <button id="sendBtn">Send</button>
+        </div>
+
+    </div>
+
+    <p class="medical-note">
+        This assistant provides educational information only.
+        It does not replace professional medical advice.
+    </p>
+
+</section>
+    </main>
+
+    <footer>
+        <p>© 2026 Thyroid Care | Health Education Platform</p>
+        <p>For educational purposes only. Not a substitute for medical advice.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
