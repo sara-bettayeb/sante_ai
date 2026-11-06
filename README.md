@@ -1,62 +1,21 @@
-# Diabetes Prediction Project
+# 🩺 المنصة الذكية للتقييم المبكر لمخاطر مرض السكري
 
-## Overview
-This project uses Machine Learning to predict whether a person is likely to have diabetes based on medical data.
+تطبيق طبي ذكي يعتمد على خوارزميات تعلم الآلة لتحليل المؤشرات الحيوية وتوقع احتمالية الإصابة بمرض السكري.
 
-## Objectives
-- Analyze diabetes-related data.
-- Train a Machine Learning model.
-- Predict the possibility of diabetes.
-- Provide an interactive dashboard using Streamlit.
+## 📌 مميزات المشروع
+- واجهة تفاعلية باللغة العربية (RTL) مبنية باستخدام **Streamlit**.
+- حاسبة أوتوماتيكية لمؤشر كتلة الجسم (BMI).
+- نموذج ذكاء اصطناعي **مدرّب مسبقًا (Pre-trained)** من نوع **Logistic Regression**.
+- عرض النتائج على شكل عدّاد (Gauge) ونسبة مئوية واضحة.
+- تحليل تأثير العوامل السريرية (الجلوكوز، BMI، العمر...) على النتيجة.
 
-## Project Structure
+## 🧠 النموذج المستخدم
+- **الخوارزمية:** Logistic Regression.
+- **المصدر:** نموذج جاهز من Hugging Face (تم فحصه أمنياً باستخدام `skops`).
+- **البيانات:** Pima Indians Diabetes Dataset (8 خصائص).
+- **الصيغة:** `model.skops`.
 
-```text
-diabetes-prediction/
-│
-├── app/
-│   └── dashboard.py
-├── models/
-├── train.py
-├── requirements.txt
-├── Dockerfile
-├── .gitignore
-└── README.md
-```
-
-## Technologies Used
-- Python
-- Machine Learning
-- Streamlit
-- Pandas
-- Scikit-learn
-- Docker
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Train the Model
-
-```bash
-python train.py
-```
-
-## Run the Dashboard
-
-```bash
-streamlit run app/dashboard.py
-```
-
-## Author
-Malak Bougendaura
+## 🚀 كيفية التشغيل
+1. تثبيت المكتبات:
+   ```bash
+   pip install -r requirements.txt
