@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI E-Health - Hypertension Predictor</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-2: #273449;
+      --border: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px 60px;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 24px; }
+    header h1 {
+      font-size: 1.6rem; margin: 0 0 6px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    header p { color: var(--muted); margin: 0; font-size: .9rem; }
+    .badge {
+      display: inline-block; margin-top: 10px;
+      padding: 3px 10px; border-radius: 999px;
+      background: rgba(56,189,248,.12); color: var(--accent);
+      font-size: .75rem; border: 1px solid rgba(56,189,248,.3);
+    }
+    .grid {
+      display: grid; gap: 20px;
+      grid-template-columns: 1.4fr 1fr;
+    }
+    @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 22px;
+    }
+    .card h2 {
+      margin: 0 0 4px; font-size: 1.05rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card .sub { color: var(--muted); font-size: .82rem; margin-bottom: 18px; }
+    .row { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+    .row.three { grid-template-columns: repeat(3, 1fr); }
+    .field label {
+      display: block; font-size: .8rem; color: var(--muted); margin-bottom: 4px;
+    }
+    .field label .hint { font-size: .68rem; color: #64748b; }
+    .field input, .field select {
+      width: 100%; padding: 9px 11px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--card-2);
+      color: var(--text); font-size: .9rem; font-family: inherit;
+    }
+    .field input:focus, .field select:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.15);
+    }
+    .section-title {
+      margin: 18px 0 10px; font-size: .8rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    button {
+      margin-top: 18px; width: 100%; padding: 12px; border-radius: 10px;
+      border: none; cursor: pointer; font-size: .95rem; font-weight: 600;
+      background: linear-gradient(90deg, #38bdf8, #6366f1); color: #0f172a;
+      transition: transform .05s ease, opacity .15s ease;
+    }
+    button:hover { opacity: .92; }
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .result {
+      margin-top: 18px; padding: 18px; border-radius: 12px;
+      background: var(--card-2); border: 1px solid var(--border);
+      display: none;
+    }
+    .result.show { display: block; }
+    .result .top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .result .label { font-size: .85rem; color: var(--muted); }
+    .verdict {
+      font-size: 1.4rem; font-weight: 700; margin: 4px 0 0;
+    }
+    .pill {
+      padding: 4px 12px; border-radius: 999px; font-size: .75rem; font-weight: 600;
+    }
+    .pill.low  { background: rgba(34,197,94,.15);  color: var(--green); border:1px solid rgba(34,197,94,.3); }
+    .pill.med  { background: rgba(245,158,11,.15); color: var(--amber); border:1px solid rgba(245,158,11,.3); }
+    .pill.high { background: rgba(239,68,68,.15);  color: var(--red);   border:1px solid rgba(239,68,68,.3); }
+    .meter {
+      height: 8px; background: var(--card); border-radius: 4px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .meter > div {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--green), var(--amber), var(--red));
+      transition: width .5s ease;
+    }
+    .stat-row {
+      display: flex; justify-content: space-between; margin-top: 14px;
+      font-size: .8rem; color: var(--muted);
+    }
+    .stat-row b { color: var(--text); font-weight: 600; }
+    .errors {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      background: rgba(239,68,68,.1); color: var(--red); font-size: .82rem;
+      display: none;
+    }
+    .errors.show { display: block; }
+    footer {
+      text-align: center; margin-top: 28px; color: #64748b; font-size: .75rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>AI E-Health — Hypertension Predictor</h1>
+      <p>تقييم خطر الإصابة بارتفاع ضغط الدم باستخدام نموذج Logistic Regression</p>
+      <span class="badge">مشروع تعليمي — ليس أداة طبية</span>
+    </header>
+
+    <div class="grid">
+      <!-- ============ FORM ============ -->
+      <div class="card">
+        <h2>بيانات المريض</h2>
+        <p class="sub">املأ الحقول التالية ثم اضغط على "تقييم الخطر"</p>
+
+        <div class="section-title">المعلومات الأساسية</div>
+        <div class="row three">
+          <div class="field">
+            <label>العمر (سنة)</label>
+            <input type="number" id="age" value="45" min="0" max="120">
+          </div>
+          <div class="field">
+            <label>الجنس</label>
+            <select id="gender">
+              <option value="0">أنثى</option>
+              <option value="1">ذكر</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>BMI</label>
+            <input type="number" id="bmi" value="25.0" step="0.1" min="10" max="60">
+          </div>
+        </div>
+
+        <div class="section-title">العلامات الحيوية</div>
+        <div class="row three">
+          <div class="field">
+            <label>الضغط الانقباضي (Systolic)</label>
+            <input type="number" id="systolic" value="120" min="60" max="250">
+          </div>
+          <div class="field">
+            <label>الضغط الانبساطي (Diastolic)</label>
+            <input type="number" id="diastolic" value="80" min="40" max="150">
+          </div>
+          <div class="field">
+            <label>معدل ضربات القلب</label>
+            <input type="number" id="heartRate" value="75" min="30" max="220">
+          </div>
+        </div>
+
+        <div class="section-title">نمط الحياة</div>
+        <div class="row three">
+          <div class="field">
+            <label>الملح اليومي (غ/يوم)</label>
+            <input type="number" id="salt" value="5.0" step="0.1" min="0" max="30">
+          </div>
+          <div class="field">
+            <label>النوم (ساعة/ليلة)</label>
+            <input type="number" id="sleep" value="7.0" step="0.1" min="0" max="24">
+          </div>
+          <div class="field">
+            <label>النشاط البدني</label>
+            <select id="physicalActivity">
+              <option value="0">خامل</option>
+              <option value="1">نشيط</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>التدخين</label>
+            <select id="smoking">
+              <option value="0">لا</option>
+              <option value="1">نعم</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>التوتر (Stress)</label>
+            <select id="stress">
+              <option value="0">منخفض</option>
+              <option value="1">مرتفع</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-title">التاريخ المرضي</div>
+        <div class="row three">
+          <div class="field">
+            <label>تاريخ عائلي</label>
+            <select id="familyHistory">
+              <option value="0">لا</option>
+              <option value="1">نعم</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>السكري</label>
+            <select id="diabetes">
+              <option value="0">لا</option>
+              <option value="1">نعم</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>أمراض الغدة الدرقية</label>
+            <select id="thyroid">
+              <option value="0">لا</option>
+              <option value="1">نعم</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="predictBtn">تقييم الخطر</button>
+        <div class="errors" id="errors"></div>
+      </div>
+
+      <!-- ============ RESULT ============ -->
+      <div class="card">
+        <h2>النتيجة</h2>
+        <p class="sub">يظهر هنا التقييم بعد الإرسال</p>
+
+        <div class="result" id="result">
+          <div class="top">
+            <div>
+              <div class="label">التنبؤ</div>
+              <div class="verdict" id="verdict">—</div>
+            </div>
+            <div>
+              <div class="label" style="text-align:right">مستوى الخطر</div>
+              <span class="pill low" id="pill">low</span>
+            </div>
+          </div>
+
+          <div class="label">احتمال الإصابة</div>
+          <div class="meter"><div id="meterBar"></div></div>
+
+          <div class="stat-row">
+            <span>احتمال الإصابة بارتفاع الضغط</span>
+            <b id="probText">—</b>
+          </div>
+          <div class="stat-row">
+            <span>إصدار النموذج</span>
+            <b id="verText">—</b>
+          </div>
+          <div class="stat-row">
+            <span>دقة النموذج (Accuracy)</span>
+            <b id="accText">—</b>
+          </div>
+          <div class="stat-row">
+            <span>ROC-AUC</span>
+            <b id="aucText">—</b>
+          </div>
+        </div>
+
+        <div id="emptyState" style="color: var(--muted); font-size:.85rem; text-align:center; padding: 30px 10px;">
+          أدخل بيانات المريض و اضغط على "تقييم الخطر" لعرض النتيجة.
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      FastAPI + scikit-learn ·
+      <a href="/docs" target="_blank">Swagger UI</a> ·
+      <a href="/api/predict" target="_blank">API metadata</a>
+    </footer>
+  </div>
+
+  <script>
+    const FIELDS = ["age","gender","bmi","systolic","diastolic","heartRate",
+      "familyHistory","smoking","physicalActivity","salt","stress","sleep",
+      "diabetes","thyroid"];
+
+    const $ = (id) => document.getElementById(id);
+    const btn = $("predictBtn");
+    const errorsEl = $("errors");
+    const resultEl = $("result");
+    const emptyEl = $("emptyState");
+
+    function showError(msg) {
+      errorsEl.textContent = msg;
+      errorsEl.classList.add("show");
+    }
+    function clearError() { errorsEl.classList.remove("show"); }
+
+    async function loadMeta() {
+      try {
+        const r = await fetch("/api/predict");
+        const j = await r.json();
+        $("accText").textContent = j.metrics ? (j.metrics.accuracy * 100).toFixed(1) + "%" : "—";
+        $("aucText").textContent = j.metrics ? j.metrics.roc_auc.toFixed(3) : "—";
+      } catch (e) { /* ignore - will show — */ }
+    }
+    loadMeta();
+
+    btn.addEventListener("click", async () => {
+      clearError();
+      const payload = {};
+      for (const f of FIELDS) {
+        const el = $(f);
+        payload[f] = el.tagName === "SELECT" ? parseInt(el.value, 10)
+                                          : (f === "bmi" || f === "salt" || f === "sleep")
+                                            ? parseFloat(el.value) : parseInt(el.value, 10);
+      }
+      btn.disabled = true; btn.textContent = "...جاري التقييم";
+
+      try {
+        const r = await fetch("/api/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const j = await r.json();
+        if (!r.ok) {
+          const msg = j.detail
+            ? (Array.isArray(j.detail) ? j.detail.map(d => `${d.loc[d.loc.length-1]}: ${d.msg}`).join(" | ") : j.detail)
+            : "فشل الطلب";
+          showError(msg);
+          return;
+        }
+        showResult(j);
+      } catch (e) {
+        showError("تعذر الاتصال بالخادم: " + e.message);
+      } finally {
+        btn.disabled = false; btn.textContent = "تقييم الخطر";
+      }
+    });
+
+    function showResult(j) {
+      emptyEl.style.display = "none";
+      resultEl.classList.add("show");
+
+      const prob = j.probability;
+      $("verdict").textContent = j.prediction === 1 ? "ارتفاع ضغط الدم" : "طبيعي";
+      $("verdict").style.color = j.prediction === 1 ? "var(--red)" : "var(--green)";
+
+      const pill = $("pill");
+      pill.textContent = j.risk_band;
+      pill.className = "pill " + (j.risk_band === "low" ? "low" : j.risk_band === "medium" ? "med" : "high");
+
+      $("meterBar").style.width = (prob * 100).toFixed(1) + "%";
+      $("probText").textContent = (prob * 100).toFixed(2) + "%";
+      $("verText").textContent = j.model_version;
+    }
+  </script>
+</body>
+</html>

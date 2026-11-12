@@ -1,0 +1,16 @@
+# Hypertension module. When the team merges all modules, add the other
+# services (heart:8001, diabetes:8002, thyroid:8003) under "services".
+services:
+  hypertension:
+    build: .
+    image: ai-ehealth/hypertension:latest
+    container_name: ai-ehealth-hypertension
+    ports:
+      - "8004:8000"
+    restart: unless-stopped
+    networks:
+      - ehealth-net
+
+networks:
+  ehealth-net:
+    name: ai-ehealth-net
