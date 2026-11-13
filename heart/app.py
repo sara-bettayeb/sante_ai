@@ -1,31 +1,6 @@
 import sys
 import types
-import importlib
-
-# 1. حل مشاكل مسارات واستيراد NumPy
-class NumpyCoreRedirector:
-    def find_spec(self, fullname, path, target=None):
-        if fullname.startswith("numpy._core"):
-            target_name = fullname.replace("numpy._core", "numpy.core")
-            try:
-                mod = importlib.import_module(target_name)
-                sys.modules[fullname] = mod
-                return mod.spec
-            except Exception:
-                return None
-        return None
-
-sys.meta_path.insert(0, NumpyCoreRedirector())
-
 import numpy as np
-import numpy.core.numeric
-if hasattr(np.core, 'multiarray'):
-    import numpy.core.multiarray
-    sys.modules['numpy._core.multiarray'] = np.core.multiarray
-
-np._core = np.core
-sys.modules['numpy._core'] = np.core
-sys.modules['numpy._core.numeric'] = np.core.numeric
 
 import streamlit as st
 import pandas as pd
@@ -37,6 +12,9 @@ if not hasattr(sklearn.compose._column_transformer, '_RemainderColsList'):
     class _RemainderColsList(list):
         pass
     sklearn.compose._column_transformer._RemainderColsList = _RemainderColsList
+from sklearn.impute import SimpleImputer
+if not hasattr(SimpleImputer, '_fill_dtype'):
+    SimpleImputer._fill_dtype = property(lambda self: self.statistics_.dtype)
 
 # 3. تعريف وحقن FrequencyEncoder
 class FrequencyEncoder(BaseEstimator, TransformerMixin):
