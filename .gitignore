@@ -182,3 +182,4 @@ cython_debug/
 
 node_modules
 node_modules/
+nvenv/nvenv311/n__pycache__/n*.pycn.envn
