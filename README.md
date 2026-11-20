@@ -46,27 +46,23 @@ Every push or pull_request to the main branch automatically triggers .github/wor
 ## 🚀 Quick Start Guide
 
 ### Option 1: Run with Docker Compose (Recommended)
-`bash
 git clone [https://github.com/sara-bettayeb/sante_ai.git](https://github.com/sara-bettayeb/sante_ai.git)
 cd sante_ai
 docker compose up --build
-Then open your browser at: `http://localhost:8501`
+Then open your browser at: http://localhost:8501
 
 ### Option 2: Run Locally (Python Virtual Environment)
-bash
-git clone https://github.com/sara-bettayeb/sante_ai.git
+git clone [https://github.com/sara-bettayeb/sante_ai.git](https://github.com/sara-bettayeb/sante_ai.git)
 cd sante_ai
 python -m venv venv
 # On Windows:
 venv\Scripts\activate
 pip install -r requirements.txt
-streamlit run app.py
-`
-
+streamlit run main_portal.py
 ---
 
 ## 👩‍💻 Project Team — Master 1 Information Security (2026–2027)
-* Sara Bettayeb (`@sara-bettayeb`) — Heart Disease Diagnostic Module, Database Integration, DevSecOps CI/CD & Security Pipeline
-* Malak (`@malakbgdd`) — Diabetes Diagnostic Module & Automated Unit Testing (`Pytest`)
-* Ferial (`@ferial04`) — Thyroid Disorder Diagnostic Module & UML System Modeling
+* Sara Bettayeb (@sara-bettayeb) — Heart Disease Diagnostic Module, Database Integration, DevSecOps CI/CD & Security Pipeline
+* Malak (@malakbgdd) — Diabetes Diagnostic Module & Automated Unit Testing (Pytest)
+* Ferial (@ferial04) — Thyroid Disorder Diagnostic Module & UML System Modeling
 * Maya — Hypertension Diagnostic Module
