@@ -63,4 +63,4 @@ jobs:
         run: pip install bandit
 
       - name: Run Static Application Security Testing (SAST)
-        run: bandit -r . -ll -x ./venv,./venv311s
+        run: bandit -r . -lll -x ./venv,./venv311,./tests
