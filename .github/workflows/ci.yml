@@ -46,7 +46,7 @@ jobs:
         run: |
           docker compose build
 
-    security-scan:
+security-scan:
     name: DevSecOps Security Scan (Bandit)
     runs-on: ubuntu-latest
 
