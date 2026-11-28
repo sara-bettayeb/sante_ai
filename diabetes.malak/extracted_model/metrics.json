@@ -1,0 +1,13 @@
+{
+  "problem_type": "binary_classification",
+  "eval_metric": "roc_auc",
+  "metric_direction": "higher_is_better",
+  "algorithm": "xgboost_classifier",
+  "cv_folds": 5,
+  "model_cv_score_mean": 0.8147370025008879,
+  "model_cv_score_std": 0.0021525941927284893,
+  "baseline_cv_score_mean": 0.5,
+  "baseline_cv_score_std": 0.0,
+  "n_samples": 229474,
+  "n_features": 21
+}
